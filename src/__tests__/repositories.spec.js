@@ -13,7 +13,6 @@ describe("Repositories", () => {
       });
 
     expect(isUuid(response.body.id)).toBe(true);
-
     expect(response.body).toMatchObject({
       url: "https://github.com/Rocketseat/umbriel",
       title: "Umbriel",
@@ -73,7 +72,9 @@ describe("Repositories", () => {
   });
 
   it("should not be able to update a repository that does not exist", async () => {
-    await request(app).put(`/repositories/123`).expect(400);
+    await request(app)
+      .put(`/repositories/123`)
+      .expect(400);
   });
 
   it("should not be able to update repository likes manually", async () => {
@@ -105,16 +106,19 @@ describe("Repositories", () => {
         techs: ["Node", "Express", "TypeScript"]
       });
 
-    await request(app).delete(`/repositories/${response.body.id}`).expect(204);
-
+    await request(app)
+      .delete(`/repositories/${response.body.id}`)
+      .expect(204);
     const repositories = await request(app).get("/repositories");
 
-    const repository = repositories.body.find((r) => r.id === response.body.id);
+    const repository = repositories.body.find(r => r.id === response.body.id);
 
     expect(repository).toBe(undefined);
   });
 
   it("should not be able to delete a repository that does not exist", async () => {
-    await request(app).delete(`/repositories/123`).expect(400);
+    await request(app)
+      .delete(`/repositories/123`)
+      .expect(400);
   });
 });
